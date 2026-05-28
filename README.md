@@ -1,6 +1,10 @@
 # PrepOps
 
+[![CI](https://github.com/Goren17/PrepOps/actions/workflows/ci.yml/badge.svg)](https://github.com/Goren17/PrepOps/actions/workflows/ci.yml)
+
 PrepOps is a browser-based DevOps interview trainer. It is a static web app: no build step, package install, backend, or database is required.
+
+Live app: https://goren17.github.io/PrepOps/
 
 ## Run after cloning
 
@@ -84,3 +88,13 @@ Questions live in `questions.js` inside the `QUESTIONS` array. Each category has
 ```
 
 After editing `questions.js`, refresh the browser.
+
+## Tests and deployment
+
+CI runs on every push and pull request:
+
+```bash
+npm run test
+```
+
+The test suite validates the question bank and runs a Playwright smoke test against the static app. Pushes to `main` deploy the tested static files to GitHub Pages.
