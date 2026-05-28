@@ -4,7 +4,7 @@
 
 PrepOps is a browser-based DevOps interview trainer. It is a static web app: no build step, package install, backend, or database is required.
 
-Live app: https://goren17.github.io/PrepOps/
+Latest deployment: https://goren17.github.io/PrepOps/
 
 ## Run after cloning
 
