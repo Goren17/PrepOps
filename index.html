@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PrepOps Interview Trainer</title>
+    <link rel="icon" href="favicon.ico" sizes="any" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-mark" src="favicon.png" alt="" />
+          <div>
+            <h1>PrepOps</h1>
+            <p>Senior DevOps interview trainer</p>
+          </div>
+        </div>
+
+        <div class="score-card">
+          <div>
+            <span class="eyebrow">Progress</span>
+            <strong id="totalProgress">0%</strong>
+          </div>
+          <div class="ring" aria-label="Overall progress">
+            <svg viewBox="0 0 44 44">
+              <circle cx="22" cy="22" r="18"></circle>
+              <circle id="progressCircle" cx="22" cy="22" r="18"></circle>
+            </svg>
+          </div>
+        </div>
+
+        <nav id="subjectNav" class="subject-nav" aria-label="Subjects"></nav>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <div>
+            <span class="eyebrow">Question Bank</span>
+            <h2 id="subjectTitle">All Subjects</h2>
+          </div>
+          <div class="top-actions">
+            <label class="search-box">
+              <span>Search</span>
+              <input id="searchInput" type="search" placeholder="k8s, helm, vpc, python..." />
+            </label>
+            <button id="resetBtn" class="ghost-btn" type="button">Reset</button>
+          </div>
+        </header>
+
+        <section class="stats-grid" aria-label="Progress statistics">
+          <div>
+            <span>Answered</span>
+            <strong id="answeredCount">0</strong>
+          </div>
+          <div>
+            <span>To review</span>
+            <strong id="reviewCount">0</strong>
+          </div>
+          <div>
+            <span>Total questions</span>
+            <strong id="totalCount">0</strong>
+          </div>
+          <div>
+            <span>Solved once</span>
+            <strong id="streakCount">0</strong>
+          </div>
+        </section>
+
+        <section class="study-tools" aria-label="Study controls">
+          <div class="study-mode-group">
+            <span class="tool-label">Mode</span>
+            <div class="mode-tabs" role="group" aria-label="Study mode">
+              <button class="active" data-mode="browse" type="button">Browse</button>
+              <button data-mode="scenario" type="button">Scenarios</button>
+              <button data-mode="review" type="button">Review drill</button>
+              <button id="mockSetupBtn" data-mode="mock" type="button">Mock Interview</button>
+            </div>
+          </div>
+
+          <div class="study-filter-group">
+            <button id="mockEndBtn" class="ghost-btn danger-btn" type="button" hidden>End mock</button>
+
+            <label class="random-toggle">
+              <input id="randomToggle" type="checkbox" />
+              <span>Random</span>
+            </label>
+
+            <label class="playlist-box">
+              <span>Playlist</span>
+              <select id="playlistSelect">
+                <option value="all">All questions</option>
+                <option value="applied">Applied Materials DevOps</option>
+                <option value="papaya">Papaya Gaming</option>
+              </select>
+            </label>
+            <button id="playlistEditToggle" class="ghost-btn playlist-edit-btn" type="button" hidden>Edit playlist</button>
+
+            <label class="focus-box">
+              <span>Focus</span>
+              <select id="focusSelect">
+                <option value="all">All</option>
+                <option value="unrated">Unrated</option>
+                <option value="again">Again</option>
+                <option value="hard">Hard</option>
+                <option value="good">Good</option>
+                <option value="easy">Easy</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="playlistEditor" class="playlist-editor" hidden>
+            <div class="playlist-editor-title">
+              <span class="eyebrow">Playlist Categories</span>
+              <button id="playlistResetBtn" class="ghost-btn" type="button" hidden>Reset default</button>
+            </div>
+            <div id="playlistCategoryChoices" class="playlist-category-choices"></div>
+          </div>
+
+          <div id="mockActiveBar" class="mock-active-bar" hidden aria-label="Active mock interview"></div>
+        </section>
+
+        <section id="mockPanel" class="mock-panel" hidden aria-label="Mock interview setup">
+          <div class="mock-builder">
+            <div>
+              <span class="eyebrow">Mock Interview</span>
+              <h3>Build a focused session</h3>
+            </div>
+            <div class="mock-fields">
+              <label class="mock-preset-field">
+                <span>Preset</span>
+                <select id="mockPresetSelect">
+                  <option value="custom">Custom</option>
+                  <option value="applied">Applied Materials DevOps</option>
+                  <option value="cicdTroubleshooting">CI/CD Troubleshooting</option>
+                  <option value="javaPythonAutomation">Java/Python Automation</option>
+                  <option value="behavioralTeamwork">Behavioral / Teamwork</option>
+                  <option value="coreBasics">Core DevOps Basics</option>
+                </select>
+              </label>
+              <label>
+                <span>Questions</span>
+                <select id="mockCountSelect">
+                  <option value="10">10</option>
+                  <option value="20" selected>20</option>
+                  <option value="30">30</option>
+                </select>
+              </label>
+              <label>
+                <span>Difficulty</span>
+                <select id="mockDifficultySelect">
+                  <option value="all">Any</option>
+                  <option value="unrated">Unrated</option>
+                  <option value="review">Review</option>
+                  <option value="again">Again</option>
+                  <option value="hard">Hard</option>
+                  <option value="good">Good</option>
+                  <option value="easy">Easy</option>
+                </select>
+              </label>
+            </div>
+            <div id="mockSubjectChoices" class="mock-subjects" aria-label="Mock subjects"></div>
+            <div class="mock-actions">
+              <button id="mockStartBtn" class="primary-btn" type="button">Start mock</button>
+              <button id="mockCancelBtn" class="ghost-btn" type="button">Cancel</button>
+            </div>
+          </div>
+
+          <div class="mock-history">
+            <div class="mock-history-title">
+              <h3>Previous scores</h3>
+              <button id="mockClearHistoryBtn" class="ghost-btn" type="button">Clear</button>
+            </div>
+            <div id="mockHistoryList" class="mock-history-list"></div>
+          </div>
+        </section>
+
+        <section class="trainer">
+          <div class="question-panel">
+            <div class="panel-header">
+              <div>
+                <span id="questionMeta" class="eyebrow">Ready</span>
+                <h3 id="questionText">Choose a question to begin.</h3>
+              </div>
+              <button id="favoriteBtn" class="favorite-btn" type="button" aria-label="Toggle favorite">Save</button>
+            </div>
+
+            <div id="answerBox" class="answer-box" hidden>
+              <div id="structureSection" class="structure-box">
+                <h4 id="structureTitle">Answer structure</h4>
+                <div id="structureSteps" class="structure-steps"></div>
+              </div>
+              <div id="answerSection">
+                <h4 id="answerTitle">Strong answer</h4>
+                <p id="answerText"></p>
+              </div>
+              <div id="signalSection" class="signal-box">
+                <h4 id="signalTitle">Senior signals</h4>
+                <ul id="signalList"></ul>
+              </div>
+              <div id="followUpSection" class="follow-up-box">
+                <h4 id="followUpTitle">Follow-up practice</h4>
+                <ul id="followUpList"></ul>
+              </div>
+            </div>
+
+            <div class="action-zone">
+              <div class="controls">
+                <button id="prevBtn" type="button">Previous</button>
+                <button id="showBtn" class="primary-btn" type="button">Show answer</button>
+                <button id="nextBtn" type="button">Next</button>
+              </div>
+
+              <div class="outcome-actions" aria-label="Answer outcome">
+                <button data-rating="again" type="button">Again</button>
+                <button data-rating="hard" type="button">Hard</button>
+                <button data-rating="good" type="button">Good</button>
+                <button data-rating="easy" type="button">Easy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="queue-panel" id="queuePanel">
+            <div class="resize-handle" id="queueResizeHandle" role="separator" aria-label="Resize practice queue" aria-orientation="vertical"></div>
+            <div class="queue-header">
+              <h3 id="queueTitle">Practice Queue</h3>
+              <div id="queueFilters" class="segmented" role="group" aria-label="Question list filter">
+                <button class="active" data-filter="all" type="button">All</button>
+                <button data-filter="saved" type="button">Saved</button>
+              </div>
+            </div>
+            <div id="questionList" class="question-list"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
