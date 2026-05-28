@@ -1,0 +1,13 @@
+{
+  "name": "prepops",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:questions": "node scripts/validate-questions.js",
+    "test:smoke": "playwright test --reporter=line",
+    "test": "npm run test:questions && npm run test:smoke"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}
