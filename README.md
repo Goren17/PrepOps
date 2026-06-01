@@ -48,7 +48,7 @@ http://localhost:8000
 ## How to use
 
 - Choose a subject from the left sidebar.
-- Use `Playlist` to focus the question bank, for example `Applied Materials DevOps`.
+- Use `Playlist` to focus the question bank, for example `On-Prem DevOps`.
 - Use `Mode`:
   - `Browse`: normal question practice.
   - `Scenarios`: troubleshooting and practical workflow questions.

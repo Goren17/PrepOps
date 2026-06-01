@@ -43,7 +43,7 @@ test("static app renders and core filters work", async ({ page }) => {
   });
 
   await page.locator("#playlistSelect").selectOption("applied");
-  await expect(page.locator("#subjectTitle")).toContainText("Applied Materials DevOps");
+  await expect(page.locator("#subjectTitle")).toContainText("On-Prem DevOps");
   const appliedQueueTitle = await page.locator("#queueTitle").innerText();
   const appliedQueueCount = await page.locator("#questionList .question-item").count();
   await logCheckpoint("Applied playlist selected", {

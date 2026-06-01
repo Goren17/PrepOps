@@ -20,7 +20,7 @@ const PLAYLISTS = {
     label: "All questions"
   },
   papaya: {
-    label: "Papaya Gaming",
+    label: "High-Scale Kubernetes",
     subjects: new Set([
       "Kubernetes",
       "CI/CD",
@@ -52,7 +52,7 @@ const PLAYLISTS = {
     ]
   },
   applied: {
-    label: "Applied Materials DevOps",
+    label: "On-Prem DevOps",
     subjects: new Set([
       "CI/CD",
       "Docker",
@@ -148,7 +148,7 @@ const MOCK_PRESETS = {
     label: "Custom"
   },
   applied: {
-    label: "Applied Materials DevOps",
+    label: "On-Prem DevOps",
     count: 20,
     difficulty: "all",
     subjects: [
