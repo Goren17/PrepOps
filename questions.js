@@ -31,33 +31,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "מה זה Infrastructure as Code?",
-        "a": "IaC היא שיטה לניהול תשתיות באמצעות קוד. במקום להקים שרתים ומשאבים ידנית דרך ממשק גרפי, כותבים קבצים שמגדירים את כל התשתית - שרתים, רשת, Load Balancers, DB ועוד. כלים נפוצים: Terraform, CloudFormation, Ansible. היתרון: יכולת לשחזר סביבות, versioning ו-CI/CD גם על תשתיות.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "מהם קבצי WAR ו-JAR ומה ההבדל ביניהם?",
-        "a": "JAR (Java Archive) הוא קובץ ZIP שמאגד קבצי class ותלויות של אפליקציית Java או ספרייה. WAR (Web Application Archive) הוא ארכיון לאפליקציות Web המכיל classes, JSP, HTML וקונפיגורציות, ומיועד לרוץ בתוך Web container כמו Tomcat. ההבדל: JAR לאפליקציות עצמאיות וספריות, WAR לאפליקציות Web.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "האם זמן הריצה של Python שונה מזה של C, ולמה?",
-        "a": "כן. Python היא שפה מתורגמת (interpreted) - כל שורה מתורגמת לקוד מכונה בזמן הריצה ולכן רצה לאט יחסית. C היא שפה מקומפלת (compiled) - הקוד מתורגם מראש לקוד מכונה ורץ ישירות, ולכן הרבה יותר מהר. ככלל, ככל ששפה קרובה יותר לשפת מכונה כך היא מהירה יותר אך פחות נוחה לפיתוח.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "מה זה GitOps?",
         "a": "GitOps הוא מודל עבודה שבו Git הוא ה-Source of Truth היחיד גם לקוד וגם לתשתיות. כל שינוי - קונפיגורציה, פריסה או תשתית - חייב לעבור דרך Git. כלי כמו ArgoCD או Flux מסנכרן את המצב בקלאסטר עם מה שכתוב ב-repo. מאפשר עקביות, היסטוריה מלאה, audit ו-rollback פשוט.",
         "signals": [
@@ -154,15 +127,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "כיצד תשתמש ב-journalctl כדי לצפות בלוגים של שירות ספציפי?",
-        "a": "כדי לצפות בלוגים של שירות ספציפי, אשתמש בפקודה journalctl -u servicename. זה יציג את כל הלוגים הקשורים לאותו שירות. ניתן להוסיף דגלים נוספים כמו -f למעקב בזמן אמת, או -since ו-until לסינון לפי טווח זמנים.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "הסבר מהי מטרת הפקודה ss ומהם יתרונותיה על פני netstat.",
         "a": "הפקודה ss (socket statistics) משמשת להצגת מידע מפורט על סוקטים פתוחים (חיבורי רשת). היא מהירה ויעילה יותר מ-netstat, במיוחד במערכות עמוסות עם אלפי חיבורים. ss מספקת מידע עשיר יותר על מצב החיבורים, פרוטוקולים, ותכונות מתקדמות של הרשת.",
         "signals": [
@@ -192,15 +156,6 @@ const QUESTIONS = [
       {
         "q": "הסבר את מטרת המשתנה PATH וכיצד הוא משפיע על ביצוע פקודות במעטפת.",
         "a": "המשתנה PATH הוא משתנה סביבה שמכיל רשימה של תיקיות שהמעטפת סורקת כאשר מנסים לבצע פקודה. כאשר אתה מקליד פקודה, המערכת מחפשת את קובץ ההרצה של הפקודה בתיקיות המוגדרות ב-PATH. זה מאפשר להריץ פקודות מבלי לציין את הנתיב המלא אליהן.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "תאר את תהליך ההתחברות לשרת מרוחק באמצעות SSH, וציין יתרון אבטחתי אחד של SSH.",
-        "a": "תהליך ההתחברות לשרת מרוחק באמצעות SSH כולל הרצת הפקודה ssh user@hostname, ולאחר מכן אימות (בדרך כלל באמצעות סיסמה או מפתח SSH). יתרון אבטחתי מרכזי של SSH הוא שכל התקשורת בין הלקוח לשרת מוצפנת, מה שמגן מפני האזנות ויירוט נתונים רגישים.",
         "signals": [
           "From the referenced Prep Pal QA bank",
           "Practice the exact concept and command flow",
@@ -430,15 +385,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "מה תפקידם של Firewalls ו-Security Groups באבטחת רשת ב-DevOps?",
-        "a": "Firewalls ו-Security Groups הם כלי אבטחה המשמשים לשליטה בתעבורת הרשת הנכנסת והיוצאת. Firewall הוא קו הגנה ראשון ברמת הרשת, המנטר ומסנן תעבורה על בסיס כללים מוגדרים מראש כמו פורטים וכתובות IP. Security Groups, הנפוצים בסביבות ענן כמו AWS, הם Firewall-ים וירטואליים שפועלים ברמת המופע (Instance) או קבוצת מופעים, ומאפשרים שליטה עדינה יותר על התעבורה למופעים ספציפיים. שניהם קריטיים במניעת גישה לא מורשית והגנה על מערכות מפני איומי אבטחה, ומאפשרים ליישם פרקטיקות אבטחה של 'הפחות הרשאות' (Least Privilege).",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "הסבר מהי טכנולוגיית NAT (Network Address Translation) ומדוע היא חשובה ברשתות מודרניות?",
         "a": "NAT היא טכנולוגיה המאפשרת למספר התקנים ברשת מקומית לשתף כתובת IP ציבורית אחת לצורך גישה לאינטרנט. כאשר התקן ברשת הפנימית שולח בקשה החוצה, הנתב שמבצע NAT משנה את כתובת ה-IP המקומית לכתובת ה-IP הציבורית שלו. NAT חשובה מאוד מכמה סיבות: היא חוסכת בכתובות IPv4 ציבוריות (שהולכות ואוזלות), מספקת שכבת אבטחה בסיסית על ידי הסתרת מבנה הרשת הפנימית, ומפשטת את ניהול הרשת. היא הבסיס למחשוב ענן פרטי ולשימוש ב-Docker ו-Kubernetes במקרים מסוימים.",
         "signals": [
@@ -466,15 +412,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "מהו למעשה ה-handshake של TLS/SSL וכיצד הוא מבטיח תקשורת מאובטחת בין שרת ללקוח?",
-        "a": "ה-TLS/SSL handshake הוא תהליך התחלתי מורכב שבו הלקוח והשרת מנהלים משא ומתן על פרמטרים של הצפנה לפני תחילת העברת הנתונים. במהלך שלבים אלו הם מאמתים זה את זה (באמצעות תעודות דיגיטליות), מסכימים על אלגוריתמי הצפנה ויוצרים מפתח סודי משותף (symmetric key) להמשך התקשורת. תהליך זה מבטיח שהתקשורת תהיה מוצפנת, מאומתת ומוגנת מפני ציתות ושינוי נתונים על ידי גורם זדוני.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "הסבר את עקרון הפעולה של Firewalls ו-Security Groups וכיצד הם משמשים להגנה על משאבי ענן ב-DevOps?",
         "a": "Firewalls ו-Security Groups הם מנגנוני אבטחת רשת השולטים על תעבורה נכנסת ויוצאת. Firewall הוא בדרך כלל מכשיר או תוכנה המפקח על זרימת הנתונים בין רשתות שונות ומחיל כללים לפיהם תעבורה מותרת או חסומה. Security Groups, הנפוצים בסביבות ענן כמו AWS, הם סוג של Firewall וירטואלי ברמת המופע (instance) או ממשק הרשת, המאפשרים להגדיר כללים עבור תעבורה מותרת לפי פורטים, פרוטוקולים וכתובות IP. שניהם קריטיים להגבלת הגישה לשרתים ולמשאבי ענן רק לתעבורה לגיטימית, ובכך מקטינים את שטח התקיפה הפוטנציאלי.",
         "signals": [
@@ -486,33 +423,6 @@ const QUESTIONS = [
       {
         "q": "הסבר מהי כתובת IP ומה ההבדל בין IPv4 ל-IPv6.",
         "a": "כתובת IP (Internet Protocol) היא מזהה מספרי המשמש לזיהוי ייחודי של מכשיר ברשת מחשבים המשתמשת בפרוטוקול האינטרנט. IPv4 משתמשת בכתובות באורך 32 סיביות, בפורמט של ארבעה מספרים המופרדים בנקודות (לדוגמה: 192.168.1.1). IPv6 היא הגרסה החדשה יותר, המשתמשת בכתובות באורך 128 סיביות, בפורמט של שמונה קבוצות של ארבע ספרות הקסה-דצימליות (לדוגמה: 2001:0db8:85a3:0000:0000:8a2e:0370:7334). ההבדל המרכזי הוא הגידול העצום במספר הכתובות הזמינות ב-IPv6, דבר הכרחי בשל המחסור בכתובות IPv4.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "מה תפקידו של DNS ברשת וכיצד הוא עובד?",
-        "a": "DNS (Domain Name System) הוא שירות המשמש לתרגום שמות מתחם (כמו www.example.com) לכתובות IP. הוא עובד כמו ספר טלפונים של האינטרנט: כאשר משתמש מזין שם מתחם בדפדפן, הדפדפן שולח בקשה לשרת DNS, אשר מחזיר את כתובת ה-IP המתאימה. שירות זה מאפשר למשתמשים לגשת לאתרים באמצעות שמות קלים לזכירה במקום לרשום כתובות IP מספריות.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "הסבר מהו Firewall וכיצד הוא תורם לאבטחת רשת.",
-        "a": "Firewall הוא מערכת אבטחת רשת המנטרת ובודקת תעבורת רשת נכנסת ויוצאת. הוא מחליט אילו חבילות נתונים לאפשר לעבור ואילו לחסום, בהתבסס על סט מוגדר מראש של כללי אבטחה. פיירוול תורם לאבטחת רשת על ידי יצירת מחסום בין רשת פנימית מאובטחת לבין רשתות חיצוניות לא מהימנות, ובכך מגן מפני גישה בלתי מורשית, התקפות זדוניות ופרצות אבטחה.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "מה תפקידו של Load Balancer בארכיטקטורת רשת של יישומים?",
-        "a": "Load Balancer הוא מכשיר או שירות המפזר תעבורת רשת באופן שווה בין מספר שרתים. תפקידו העיקרי הוא לשפר את זמינות וביצועי היישומים על ידי מניעת עומס יתר על שרת יחיד. הוא מבטיח שכל שרת יקבל כמות עבודה אופטימלית, מאפשר טיפול בכשלים (failover) על ידי ניתוב תעבורה לשרתים תקינים, ותומך בסקלאביליות אופקית של היישום.",
         "signals": [
           "From the referenced Prep Pal QA bank",
           "Practice the exact concept and command flow",
@@ -636,24 +546,6 @@ const QUESTIONS = [
       {
         "q": "כיצד תתמודד עם קבצים גדולים (Large Files) במאגר Git, ומהן החלופות או הכלים שבהם תשתמש כדי לנהל אותם ביעילות?",
         "a": "קבצים גדולים במאגר Git עלולים להאט מאוד את פעולות השיבוט והמשיכה, ולפגוע בביצועים. הפתרון המומלץ הוא שימוש ב-Git LFS (Large File Storage), שמאפשר לאחסן קבצים גדולים מחוץ למאגר הראשי של Git תוך שמירה על מצביעים אליהם בתוך המאגר. אפשרויות נוספות כוללות שימוש בשירותי אחסון ענן לקבצים בינאריים גדולים וקישור חיצוני אליהם, או שקילת שימוש במערכת בקרת גרסאות אחרת המותאמת יותר לטיפול ב-large binaries.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "באילו דרכים ניתן להבטיח איכות קוד ועמידה בסטנדרטים באמצעות מנגנונים של Git, ובמיוחד על ידי שימוש ב-Git Hooks?",
-        "a": "ניתן להבטיח איכות קוד ועמידה בסטנדרטים באמצעות Git Hooks על ידי הפעלת סקריפטים אוטומטיים בשלבים שונים של תהליך ה-committing וה-pushing. לדוגמה, באמצעות pre-commit hook ניתן להריץ linters, בדיקות יחידה או בדיקות סגנון קוד לפני שה-commit נוצר בפועל, ובכך למנוע קוד שאינו תקין מלהיכנס למאגר. pre-receive hooks בצד השרת יכולים לאכוף מדיניות, כמו חתימת קומיטים או אישור של קומיטים מסוימים, ובכך לשפר את אבטחת המאגר.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "הסבר כיצד git rebase משנה את היסטוריית הגיט, ומדוע נבחר להשתמש בו דווקא בגישה של 'clean history'. מהם הסיכונים העיקריים הכרוכים בשימוש ב-rebase על ענפים משותפים?",
-        "a": "git rebase משנה את היסטוריית הגיט על ידי העתקת ה-commits מרצף אחד והדבקתם מחדש על גבי commit אחר, מה שיוצר היסטוריה לינארית ונקייה יותר. נבחר להשתמש בו בגישה של 'clean history' כדי להימנע מ-merge commits מיותרים וכדי לשמור על עקביות וקריאות בהיסטוריית הפרויקט. הסיכונים העיקריים בשימוש ב-rebase על ענפים משותפים הם שכתוב היסטוריה ציבורית, מה שעלול לגרום לקונפליקטים רבים עבור מפתחים אחרים שכבר עשו pull לענף, ולפגוע בשיתוף הפעולה.",
         "signals": [
           "From the referenced Prep Pal QA bank",
           "Practice the exact concept and command flow",
@@ -784,15 +676,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "הסבר כיצד ניתן להשתמש ב-security best practices ב-Dockerfile כדי להקשיח (harden) את אבטחת הקונטיינר. פרט לפחות שתי דוגמאות קונקרטיות.",
-        "a": "ניתן להשתמש ב-security best practices ב-Dockerfile על ידי שימוש במשתמשים לא מיוחסים (non-privileged users) באמצעות הפקודה 'USER', וזאת כדי למנוע הרצת תהליכים כ-root. בנוסף, מומלץ להשתמש באימג'ים בסיסיים קטנים ומאובטחים כמו Alpine, ולהימנע מהתקנת חבילות מיותרות. כמו כן, כדאי להשתמש ב-'COPY --chown' כדי לוודא שלקבצים והתיקיות יש הרשאות מתאימות, ולהימנע מלהעתיק קבצים רגישים או Credential לתוך האימג'.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "מהו תפקיד ה-.dockerignore file וכיצד הוא תורם לאופטימיזציית גודל האימג' וביצועי ה-build?",
         "a": "קובץ .dockerignore פועל בדומה לקובץ .gitignore. הוא מגדיר קבצים ותיקיות שיש להתעלם מהם בזמן בניית האימג', ולא לכלול אותם ב-context שנשלח ל-Docker daemon. דבר זה תורם להקטנת גודל האימג' הסופי בכך שהוא מונע הכללה של קבצים מיותרים כמו קבצי פיתוח מקומיים או לוגים. בנוסף, הוא משפר את ביצועי ה-build על ידי הקטנת כמות המידע שיש להעביר ל-daemon ועיבודו.",
         "signals": [
@@ -822,24 +705,6 @@ const QUESTIONS = [
       {
         "q": "מהם האתגרים בניהול Docker images בסביבת production בקנה מידה גדול, וכיצד ניתן להתמודד איתם?",
         "a": "ניהול Docker images בקנה מידה גדול מציב אתגרים כמו שמירה על גרסאות אימג'ים, אבטחה, אופטימיזציה של גודל, וניהול Lifecycle. כדי להתמודד עם אתגרים אלו, יש להשתמש ב-Container Registry פרטי או מנוהל כמו Docker Hub או ECR לצורך אחסון וניהול גרסאות מאובטח. כדאי להטמיע סריקות אבטחה אוטומטיות לאימג'ים (image scanning) בתהליך ה-CI/CD, ולנקוט ב-best practices ל-Dockerfile וב-multi-stage builds כדי לשמור על גודל אימג'ים קטן. בנוסף, יש ליישם מדיניות לגיבוי ומחיקת אימג'ים ישנים.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "מהו Docker וכיצד הוא מסייע בתהליכי פיתוח ובדיקות?",
-        "a": "Docker היא פלטפורמה המאפשרת אריזה, הפצה והרצה של יישומים בסביבות מבודדות הנקראות קונטיינרים. היא מסייעת מאוד בתהליכי פיתוח ובדיקות בכך שהיא יוצרת סביבות עבודה עקביות ומבודדות, המונעות בעיות",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "הסבר את ההבדל בין Image ל-Container ב-Docker.",
-        "a": "Image ב-Docker הוא תבנית קריאה בלבד (read-only) המכילה את כל הקבצים, הספריות וההגדרות הדרושות להפעלת יישום. לעומת זאת, Container הוא מופע חי ורצוי של Image. ניתן ליצור מספר Containerים מאותו Image, וכל Container פועל באופן מבודד עם סביבת זמן ריצה משלו.",
         "signals": [
           "From the referenced Prep Pal QA bank",
           "Practice the exact concept and command flow",
@@ -1042,15 +907,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "תיאר כיצד Helm משמש לניהול יישומים ב-Kubernetes ומה היתרונות שלו.",
-        "a": "Helm הוא מנהל חבילות (package manager) עבור Kubernetes, המאפשר לארוז, להפיץ ולנהל יישומים בצורה עקבית. הוא משתמש ב-Charts, שהם אוספים של קבצי YAML המגדירים משאבי Kubernetes, יחד עם תבניות (templates) המאפשרות התאמה אישית של הקונפיגורציה. היתרונות המרכזיים שלו כוללים הקלה על פריסה מורכבת של יישומים, אפשרות לשדרוג ושחזור גרסאות, שיתוף קונפיגורציות סטנדרטיות וניהול תלויות. הוא מפשט את תהליך ה-Deployment ומאפשר ניהול מחזור חיי היישום ב-Kubernetes בצורה יעילה ומאורגנת יותר.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "מהו StorageClass ב-Kubernetes וכיצד הוא מאפשר ניהול אחסון דינמי (Dynamic Provisioning)?",
         "a": "StorageClass ב-Kubernetes מגדיר סוג אחסון ו-provisioner, למשל EBS, EFS או CSI driver אחר. כש-PVC מבקש storageClassName, ה-cluster יכול ליצור volume דינמית לפי parameters כמו size, reclaim policy ו-volume binding mode, במקום ליצור PV ידנית מראש.",
         "signals": [
@@ -1098,15 +954,6 @@ const QUESTIONS = [
       {
         "q": "מהו Resource Quota ב-Kubernetes וכיצד הוא תורם לניהול משאבים ולמניעת צריכה מופרזת ב-Namespace?",
         "a": "Resource Quota הוא אובייקט ב-Kubernetes המגדיר מגבלות צריכת משאבים עבור Namespace ספציפי. הוא יכול להגביל את מספר האובייקטים (כמו Pods, Deployments), את צריכת ה-CPU והזיכרון, ועוד. הדבר מסייע למנהלי קלאסטרים להקצות משאבים באופן הוגן בין צוותים או יישומים שונים ב-Namespace, ולמנוע מצב שבו יישום אחד צורך את כל משאבי הקלאסטר ומפריע לאחרים.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "הסבר את המושג Helm Chart ב-Kubernetes וכיצד הוא מפשט את תהליך הפריסה והניהול של יישומים.",
-        "a": "Helm Chart הוא חבילה של קבצי Kubernetes YAML שמתארת סט של משאבים קשורים, כמו Deployments, Services, ConfigMaps, ועוד. הוא מאפשר להגדיר, להתקין ולשדרג יישומים מורכבים במלואם באופן עקבי וניתן לשחזור. Helm מספק תבניות (templates) המאפשרות התאמה אישית של ה-Chart באמצעות Values, ובכך מפשט את הפריסה ומקטין את הסיכוי לשגיאות תצורה.",
         "signals": [
           "From the referenced Prep Pal QA bank",
           "Practice the exact concept and command flow",
@@ -1365,15 +1212,6 @@ const QUESTIONS = [
       {
         "q": "הסבר מהם GitHub Actions וכיצד הם מאפשרים אוטומציה של תהליכי עבודה ישירות ב-GitHub. פרט את היתרונות המרכזיים של השימוש בהם לעומת פתרונות CI/CD אחרים.",
         "a": "GitHub Actions היא פלטפורמת CI/CD מובנית בתוך GitHub המאפשרת אוטומציה של תהליכי פיתוח, בדיקה ופריסה. היא מבוססת על אירועים (events) המתרחשים במאגר (repository), כמו push או pull request. היתרונות המרכזיים שלה כוללים אינטגרציה חלקה עם GitHub, קהילה גדולה של פעולות מוגדרות מראש (actions), ומודל תשלום גמיש המבוסס על שימוש. היא מאפשרת הגדרת workflow באמצעות קובצי YAML, ובכך מספקת גמישות ושליטה מלאה על תהליכי האוטומציה.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
-        "q": "מהו תפקידם של 'manual approval gates' ב-CI/CD pipeline ומתי כדאי להשתמש בהם? תאר דוגמה מעשית שבהם שער אישור ידני יהיה הכרחי.",
-        "a": "Manual approval gates הם נקודות ב-CI/CD pipeline שבהן נדרשת התערבות או אישור ידני לפני שה-pipeline ממשיך. הם משמשים בדרך כלל לשלבים קריטיים כמו פריסה לסביבת ייצור (production) או אישור גרסה על ידי צוות QA. דוגמה מעשית תהיה פריסת עדכון משמעותי לאפליקציה בנק שבו נדרש אישור של מנהל צוות או צוות אבטחה לאחר בדיקות אוטומטיות, כדי לוודא שכל ההיבטים הרגולטוריים והאבטחתיים מולאו. שערים אלו מבטיחים בקרה נוספת ומונעים פריסות שעלולות לגרום לנזק.",
         "signals": [
           "From the referenced Prep Pal QA bank",
           "Practice the exact concept and command flow",
@@ -1843,15 +1681,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "ציין והסבר שני יתרונות מרכזיים של שימוש ב-AWS Lambda לפונקציות \"ללא שרת\" (serverless functions).",
-        "a": "שני יתרונות מרכזיים של AWS Lambda הם ניהול תשתית אוטומטי ותמחור מבוסס שימוש. Lambda מנהלת באופן מלא את התשתית הבסיסית, כולל שרתים, מערכת הפעלה ועדכונים, מה שחוסך זמן ומאמץ למפתחים ומהנדסי DevOps. בנוסף, התמחור של Lambda הוא לפי כמות הביצועים והזיכרון הנצרכים בלבד, ולא עבור זמני המתנה או הקצאת משאבים קבועה, מה שמוביל לחיסכון משמעותי בעלויות עבור יישומים עם עומס משתנה.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "מהם עקרונות ה-Elasticity וה-Scalability בשירותי ענן?",
         "a": "Elasticity מתארת את היכולת של מערכת להתאים את כמות המשאבים שלה באופן אוטומטי ודינמי, בהתאם לדרישות העומס המשתנות. Scalability מתייחסת ליכולת של מערכת לטפל בעומסים גוברים על ידי הוספת משאבים. בענן, עקרונות אלו מאפשרים ליישומים להתמודד עם שינויים פתאומיים בעומס תוך אופטימיזציה של עלויות וביצועים.",
         "signals": [
@@ -2305,15 +2134,6 @@ const QUESTIONS = [
         ]
       },
       {
-        "q": "הסבר מהו Secret Management ומה חשיבותו בסביבת ענן.",
-        "a": "Secret Management הוא התהליך של ניהול מאובטח של מידע רגיש כגון סיסמאות, מפתחות API, אסימוני גישה (tokens) ותעודות דיגיטליות. חשיבותו בסביבת ענן גבוהה במיוחד מכיוון שיישומים רבים פועלים בסביבות מבוזרות וצריכים לגשת למגוון רחב של שירותים. ניהול סודות מאובטח מונע חשיפה מקרית של מידע רגיש, מקטין את שטח התקיפה ותורם לעמידה ברגולציות אבטחה.",
-        "signals": [
-          "From the referenced Prep Pal QA bank",
-          "Practice the exact concept and command flow",
-          "For senior level, add tradeoffs, failure modes, and a production example"
-        ]
-      },
-      {
         "q": "כיצד תיישם את עקרון ה-Least Privilege בתפקידך כ-DevOps?",
         "a": "איישם את עקרון ה-Least Privilege על ידי מתן הרשאות מינימליות בלבד, הנדרשות עבור משתמשים, תהליכים ושירותים לביצוע משימותיהם. לדוגמה, במערכות ניהול גישה (IAM) בענן, אגדיר תפקידים (roles) עם הרשאות מוגבלות במקום מתן גישת אדמין גורפת. אדאג שקונטיינרים לא ירוצו עם הרשאות root אלא עם משתמשים מוגדרים, ושאוטומציות יקבלו את ההרשאות הספציפיות הנדרשות להן בלבד. זה מקטין משמעותית את הנזק הפוטנציאלי במקרה של פרצת אבטחה.",
         "signals": [
@@ -2329,15 +2149,6 @@ const QUESTIONS = [
           "Rotates first",
           "Audits blast radius",
           "Adds prevention"
-        ]
-      },
-      {
-        "q": "מה הגישה שלך ל-container image security?",
-        "a": "משתמשים ב-base images מינימליים ומהימנים, מקבעים versions, סורקים vulnerabilities, מסירים build tools מ-runtime images, מריצים כ-non-root כשאפשר, חותמים images, מייצרים SBOMs ובונים מחדש באופן קבוע.",
-        "signals": [
-          "Mentions non-root and minimal images",
-          "Includes signing/SBOM",
-          "Knows scans need remediation"
         ]
       },
       {
@@ -2499,6 +2310,189 @@ const QUESTIONS = [
     ]
   },
   {
+    "subject": "Enterprise Infra",
+    "icon": "OP",
+    "items": [
+      {
+        "q": "איך היית מתכנן migration הדרגתי של שירותים self-hosted מ-VMs או bare metal ל-Kubernetes?",
+        "a": "מתחילים ב-inventory של שירותים, dependencies, storage, networking, auth ו-SLOs. בוחרים שירותים פחות מסוכנים לפיילוט, בונים בסיס משותף ל-ingress, secrets, monitoring, backup ו-CI/CD, ואז מעבירים שירותים במנות קטנות עם rollback ברור. שירותים stateful או כאלה שתלויים ב-shared storage דורשים תכנון מיוחד ולא מעבירים אותם כמו stateless web app.",
+        "signals": [
+          "Starts with dependency and risk mapping",
+          "Uses phased migration and rollback",
+          "Distinguishes stateful from stateless services"
+        ]
+      },
+      {
+        "q": "מה ההבדל התפעולי בין להריץ Kubernetes בענן לבין להריץ אותו on-prem?",
+        "a": "בענן הרבה יכולות מנוהלות עבורך: control plane, load balancers, storage classes, IAM integration ו-upgrades. On-prem דורש בעלות עמוקה יותר על networking, storage, certificates, node lifecycle, capacity planning ו-integrations עם IT. לכן צריך יותר runbooks, monitoring, lifecycle automation ותיאום עם צוותי רשת, אבטחה ואחסון.",
+        "signals": [
+          "Mentions managed cloud integrations",
+          "Calls out on-prem networking and storage ownership",
+          "Understands operational lifecycle burden"
+        ]
+      },
+      {
+        "q": "איך היית מנטר ומתחזק GitLab, Jenkins, Jira או Artifactory self-hosted בסביבת production?",
+        "a": "מנטרים availability, latency, disk usage, DB health, queue length, job backlog, JVM/process memory, error logs ו-backup status. מגדירים upgrade plan, restore drills, capacity alerts ו-runbooks לתקלות נפוצות. בנוסף בודקים license limits, plugin compatibility, artifact retention ו-access audit כי אלו שירותי platform קריטיים לצוותי הפיתוח.",
+        "signals": [
+          "Covers service and dependency metrics",
+          "Mentions backups and restore drills",
+          "Understands platform impact on developers"
+        ]
+      },
+      {
+        "q": "מה זה SSO, LDAP ו-Active Directory, ואיך הם משתלבים בכלים פנימיים כמו GitLab או Jenkins?",
+        "a": "Active Directory הוא directory ארגוני לזהויות, קבוצות והרשאות. LDAP הוא פרוטוקול נפוץ לקריאת מידע כזה, ו-SSO מאפשר למשתמש להתחבר פעם אחת דרך identity provider מרכזי. בכלים כמו GitLab/Jenkins משתמשים בהם לאימות, group mapping והרשאות. חשוב לתכנן least privilege, offboarding, service accounts ו-break-glass admin למקרה שה-SSO נופל.",
+        "signals": [
+          "Separates directory, protocol, and SSO",
+          "Mentions group mapping and offboarding",
+          "Considers break-glass access"
+        ]
+      },
+      {
+        "q": "איך corporate proxy משפיע על CI/CD, Docker pulls, package managers ו-Kubernetes?",
+        "a": "Proxy יכול לחסום או לשנות תעבורה יוצאת, לדרוש authentication, להשתמש ב-TLS inspection, ולהשפיע על npm/pip/maven, docker pull, git clone ו-cluster components שיוצאים לאינטרנט. צריך להגדיר proxy env vars, trusted CAs, allowlists, mirrors פנימיים ו-timeouts מתאימים. חשוב לוודא שהפתרון עובד גם ב-runners, nodes ו-build containers.",
+        "signals": [
+          "Mentions TLS inspection and custom CAs",
+          "Covers package managers and Docker",
+          "Checks runners, nodes, and containers"
+        ]
+      },
+      {
+        "q": "Jenkins agents לא מצליחים לגשת ל-Artifactory דרך proxy ארגוני. איך תחקור?",
+        "a": "בודקים מאיפה הכשל מגיע: agent, controller, container build step או network path. מריצים curl עם verbose מתוך ה-agent, בודקים HTTP status, DNS, proxy env vars, credentials, CA trust ו-no_proxy. משווים מול מכונה שבה זה עובד, בודקים logs ב-Artifactory וב-proxy, ומוודאים שה-pipeline לא מסתיר proxy settings בגלל shell או container environment.",
+        "signals": [
+          "Tests from the failing execution context",
+          "Checks proxy, CA, DNS, and credentials",
+          "Uses Artifactory and proxy logs"
+        ]
+      },
+      {
+        "q": "מה זה shared storage בסביבת on-prem, ומה הסיכונים שלו לעומת object storage או block storage?",
+        "a": "Shared storage כמו NFS או storage appliance מאפשר לכמה שרתים לגשת לאותו filesystem. זה נוח ל-tools ישנים ול-HPC, אבל יכול להפוך ל-bottleneck או single point of failure אם אין HA, quotas, locking ו-monitoring. Object storage מתאים לארטיפקטים ואובייקטים, block storage מתאים ל-volume של workload יחיד, ו-shared filesystem דורש זהירות סביב concurrency ו-permissions.",
+        "signals": [
+          "Knows NFS/shared filesystem tradeoffs",
+          "Compares shared, object, and block storage",
+          "Mentions locking, quotas, and HA"
+        ]
+      },
+      {
+        "q": "איך היית בונה observability ל-stack פנימי שכולל Jenkins, GitLab, Artifactory, ELK ו-Sentry?",
+        "a": "מגדירים golden signals לכל שירות: availability, latency, errors, saturation ו-user-facing impact. מוסיפים dashboards לשימוש צוותי platform, alerts שמובילים לפעולה, log centralization, synthetic checks ל-flows קריטיים כמו clone/build/publish, ו-SLOs פנימיים. חשוב למדוד גם developer experience: זמן queue ב-CI, זמן build, זמינות registry ומשך incident.",
+        "signals": [
+          "Uses service-level and user-facing metrics",
+          "Includes synthetic checks for developer flows",
+          "Connects platform reliability to developer experience"
+        ]
+      },
+      {
+        "q": "איך היית מקטין operational toil בצוות קטן שמחזיק הרבה שירותים פנימיים?",
+        "a": "מזהים פעולות חוזרות דרך tickets, incidents ו-on-call pain. מאחדים deployment patterns, מוסיפים self-service בטוח, runbooks, automation ל-backups/upgrades, alerts איכותיים ו-service ownership ברור. לא מאוטמטים כל דבר מיד; מתחילים מפעולות תכופות, מסוכנות או כאלה שחוסמות משתמשים.",
+        "signals": [
+          "Prioritizes frequent or risky manual work",
+          "Mentions self-service and standard patterns",
+          "Uses tickets/incidents to find toil"
+        ]
+      },
+      {
+        "q": "איך היית עובד מול IT, Security או Networking כדי לפתור בעיית production infra?",
+        "a": "מגיעים עם תיאור impact, timeline, evidence ו-hypothesis ברור: כתובות מקור/יעד, פורטים, timestamps, logs, packet or curl output ו-change window. מגדירים owner לכל צד, מסכימים על next check, ומתעדים החלטות. המטרה היא שיתוף פעולה peer-to-peer, לא זריקת ticket כללי כמו 'network broken'.",
+        "signals": [
+          "Brings concrete technical evidence",
+          "Defines owners and next checks",
+          "Communicates impact and timeline"
+        ]
+      }
+    ]
+  },
+  {
+    "subject": "AI / HPC Infra",
+    "icon": "AI",
+    "items": [
+      {
+        "q": "מה זה HPC environment, ומה ההבדל בין workload של HPC לבין workload רגיל של web services?",
+        "a": "HPC הוא סביבת shared compute להרצת עבודות כבדות, לרוב batch jobs, סימולציות, training או data processing. בניגוד ל-web service שמשרת requests קצרים ורציפים, HPC מתמקד ב-scheduling, queueing, ניצול CPU/GPU, shared storage ו-fairness בין משתמשים. המדדים החשובים הם queue time, job success rate, utilization, runtime ו-resource contention.",
+        "signals": [
+          "Distinguishes batch compute from request-serving",
+          "Mentions scheduling and shared resources",
+          "Uses HPC-specific metrics"
+        ]
+      },
+      {
+        "q": "מה תפקידם של schedulers כמו LSF או Slurm?",
+        "a": "Schedulers כמו LSF ו-Slurm מקבלים jobs ממשתמשים, מכניסים אותם ל-queues, מקצים CPU/GPU/memory לפי policies ו-priorities, ומריצים אותם על compute nodes מתאימים. הם מאפשרים quotas, fair share, reservations, accounting ו-preemption. מבחינת DevOps חשוב לנטר queue depth, utilization, failed jobs ותקינות worker nodes.",
+        "signals": [
+          "Explains queues and resource allocation",
+          "Mentions policies, quotas, and fair share",
+          "Knows what to monitor"
+        ]
+      },
+      {
+        "q": "איך היית מתכנן GPU farm מבחינת scheduling, quotas, monitoring ו-usage visibility?",
+        "a": "מגדירים pools לפי סוג GPU וצורך, quotas לפי team/project, priority policies ודרך להזמין או לשחרר משאבים. מנטרים GPU utilization, memory, temperature, job queue, failed jobs, idle GPUs ו-driver/CUDA health. מוסיפים chargeback או showback כדי שצוותים יבינו שימוש, ומונעים מצב שבו משתמש אחד תופס GPUs בלי timeout או ownership.",
+        "signals": [
+          "Covers quotas and priority policies",
+          "Mentions GPU-specific health metrics",
+          "Adds usage visibility and ownership"
+        ]
+      },
+      {
+        "q": "מה זה model serving, ומה צריך לנטר בשירות שמריץ מודלי LLM?",
+        "a": "Model serving הוא הפיכת מודל ל-service שמקבל בקשות inference ומחזיר תשובות. ב-LLM צריך לנטר latency, throughput, error rate, tokens/sec, queue time, GPU memory, model load time, OOMs, context length, rate limits ועלות שימוש. בנוסף חשוב לעקוב אחרי איכות תפעולית כמו timeouts, retries, prompt size וגרסאות model.",
+        "signals": [
+          "Defines inference serving",
+          "Uses LLM-specific metrics like tokens/sec",
+          "Mentions GPU memory and model versions"
+        ]
+      },
+      {
+        "q": "מה זה vLLM או inference server, ואילו בעיות תפעוליות נפוצות יש סביבו?",
+        "a": "vLLM או inference server מריץ מודלים ומנהל batching, memory ו-serving API עבור inference. בעיות נפוצות כוללות GPU OOM, latency spikes, תורים ארוכים, mismatch בין CUDA/driver/model, טעינת מודל איטית, rate limits לא נכונים וניצול GPU נמוך בגלל batching לא מתאים. צריך deploy reproducible, metrics, logs ויכולת rollback בין גרסאות model/server.",
+        "signals": [
+          "Knows inference server responsibilities",
+          "Mentions batching and GPU memory",
+          "Calls out driver/model compatibility"
+        ]
+      },
+      {
+        "q": "איך היית מתכנן gateway לשירותי AI פנימיים?",
+        "a": "Gateway פנימי צריך authentication, authorization לפי team/project, rate limits, quotas, audit logs, request size limits, routing בין models, fallback או degradation, ו-metrics לכל consumer. רצוי להפריד בין API contract יציב לבין backends משתנים, כדי שאפשר יהיה להחליף model או serving engine בלי לשבור משתמשים.",
+        "signals": [
+          "Includes auth, quotas, and audit",
+          "Mentions model routing and fallback",
+          "Separates API contract from backend implementation"
+        ]
+      },
+      {
+        "q": "מה זה RAG pipeline מבחינת תשתית, ואילו רכיבים צריך להפעיל ולנטר?",
+        "a": "RAG משלב retrieval ממקור ידע עם LLM generation. תשתיתית יש ingestion jobs, parsing/chunking, embeddings, vector database, metadata store, retrieval API, model serving, cache ו-observability. מנטרים freshness של data, ingestion failures, embedding latency, vector DB latency, retrieval quality, model latency ועלויות. חשוב גם הרשאות למקורות מידע כדי לא להחזיר מידע למשתמש לא מורשה.",
+        "signals": [
+          "Lists RAG infrastructure components",
+          "Mentions data freshness and retrieval quality",
+          "Considers authorization on source data"
+        ]
+      },
+      {
+        "q": "איך היית מתמודד עם shared GPU service שמגיע ל-OOM בזמן עומס?",
+        "a": "בודקים האם ה-OOM נובע מ-model size, batch size, context length, concurrency, memory leak או fragmentation. בטווח קצר מורידים concurrency או max tokens, מוסיפים queue/backpressure, מפנים עומסים ל-GPU מתאים יותר או מפעילים replica נוסף. לטווח ארוך מגדירים capacity model, autoscaling אם אפשר, quotas, profiling ו-alerts על GPU memory לפני OOM.",
+        "signals": [
+          "Separates model, batch, and concurrency causes",
+          "Uses backpressure and limits",
+          "Adds capacity planning and proactive alerts"
+        ]
+      },
+      {
+        "q": "איך היית משלב AI tooling פנימי עם platform engineering בלי ליצור מערכת שקשה לתחזק?",
+        "a": "בונים paved path: APIs יציבים, templates לפריסה, docs, ownership, observability, quotas ו-security defaults. נמנעים מפתרונות חד-פעמיים לכל צוות, ומעדיפים capabilities משותפים כמו model gateway, vector store patterns ו-CI/CD לפריסת models. כל כלי AI צריך lifecycle ברור: מי משתמש, מי מתחזק, איך משדרגים ואיך מכבים אם הוא לא בשימוש.",
+        "signals": [
+          "Connects AI tooling to platform patterns",
+          "Mentions ownership and lifecycle",
+          "Avoids one-off unmanaged services"
+        ]
+      }
+    ]
+  },
+  {
     "subject": "Practical Tasks",
     "icon": "PT",
     "items": [
@@ -2554,15 +2548,6 @@ const QUESTIONS = [
           "Knows Jenkinsfile stage structure",
           "Uses mvn test/package and archiveArtifacts",
           "Avoids hardcoded secrets"
-        ]
-      },
-      {
-        "q": "איך תבנה בדיקת smoke test פשוטה אחרי deployment?",
-        "a": "מגדירים בדיקה קצרה שמוודאת שהשירות עונה ופעולה בסיסית עובדת. לדוגמה: curl -f /health, בדיקת /version מול ה-build שנפרס, ואולי API בסיסי שלא משנה state. ה-smoke test צריך להיכשל עם exit code לא אפס כדי לעצור pipeline או לסמן deployment ככושל.",
-        "signals": [
-          "Uses health/version endpoints",
-          "Keeps smoke test short and deterministic",
-          "Fails pipeline with non-zero exit code"
         ]
       },
       {

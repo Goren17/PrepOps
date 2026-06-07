@@ -15,6 +15,38 @@ const PRACTICE_OUTCOMES = {
   good: "Good",
   easy: "Easy"
 };
+const SUBJECT_GROUPS = {
+  core: {
+    label: "Core",
+    subjects: new Set([
+      "General DevOps",
+      "Linux",
+      "Networking",
+      "Git",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "Java Build & Runtime",
+      "Cloud / AWS",
+      "Infrastructure as Code",
+      "Security",
+      "Python",
+      "Helm"
+    ])
+  },
+  applied: {
+    label: "Applied",
+    subjects: new Set([
+      "Deployment Automation",
+      "Testing & QA Flow",
+      "Teamwork / Workflows",
+      "Enterprise Infra",
+      "AI / HPC Infra",
+      "Practical Tasks",
+      "Incident Response"
+    ])
+  }
+};
 const PLAYLISTS = {
   all: {
     label: "All questions"
@@ -789,29 +821,56 @@ function subjectStats(subject) {
   return { done, review, answered, total: items.length };
 }
 
+function renderSubjectButton(subject) {
+  const stats = subjectStats(subject);
+  const greenPercent = stats.total ? Math.round((stats.done / stats.total) * 100) : 0;
+  const redPercent = stats.total ? Math.round((stats.review / stats.total) * 100) : 0;
+  return `
+    <button class="${state.subject === subject ? "active" : ""}" data-subject="${subject}" type="button">
+      <span class="subject-main">
+        <span class="subject-row">
+          <strong class="${textDirectionClass(subject)}">${subject}</strong>
+          <small>${stats.answered}/${stats.total}</small>
+        </span>
+        <span class="subject-progress" aria-hidden="true">
+          <span class="progress-green" style="width: ${greenPercent}%"></span>
+          <span class="progress-red" style="width: ${redPercent}%"></span>
+        </span>
+      </span>
+    </button>
+  `;
+}
+
 function renderSubjects() {
-  const subjects = [{ subject: "All Subjects" }, ...QUESTIONS.map(({ subject }) => ({ subject }))];
-  els.subjectNav.innerHTML = subjects
-    .map(({ subject }) => {
-      const stats = subjectStats(subject);
-      const percent = stats.total ? Math.round((stats.answered / stats.total) * 100) : 0;
-      const greenPercent = stats.total ? Math.round((stats.done / stats.total) * 100) : 0;
-      const redPercent = stats.total ? Math.round((stats.review / stats.total) * 100) : 0;
-      return `
-        <button class="${state.subject === subject ? "active" : ""}" data-subject="${subject}" type="button">
-          <span class="subject-main">
-            <span class="subject-row">
-              <strong class="${textDirectionClass(subject)}">${subject}</strong>
-              <small>${stats.answered}/${stats.total}</small>
-            </span>
-            <span class="subject-progress" aria-hidden="true">
-              <span class="progress-green" style="width: ${greenPercent}%"></span>
-              <span class="progress-red" style="width: ${redPercent}%"></span>
-            </span>
-          </span>
-        </button>
-      `;
-    })
+  const groupedSubjects = new Set([
+    ...SUBJECT_GROUPS.core.subjects,
+    ...SUBJECT_GROUPS.applied.subjects
+  ]);
+  const uncategorizedSubjects = QUESTIONS.map(({ subject }) => subject).filter((subject) => !groupedSubjects.has(subject));
+  const subjectGroups = [
+    {
+      label: null,
+      subjects: ["All Subjects"]
+    },
+    {
+      label: SUBJECT_GROUPS.core.label,
+      subjects: QUESTIONS.map(({ subject }) => subject).filter((subject) => SUBJECT_GROUPS.core.subjects.has(subject))
+    },
+    {
+      label: SUBJECT_GROUPS.applied.label,
+      subjects: QUESTIONS.map(({ subject }) => subject).filter((subject) => SUBJECT_GROUPS.applied.subjects.has(subject))
+    },
+    {
+      label: "Other",
+      subjects: uncategorizedSubjects
+    }
+  ].filter((group) => group.subjects.length);
+
+  els.subjectNav.innerHTML = subjectGroups
+    .map((group) => `
+      ${group.label ? `<div class="subject-group-label">${group.label}</div>` : ""}
+      ${group.subjects.map((subject) => renderSubjectButton(subject)).join("")}
+    `)
     .join("");
 }
 

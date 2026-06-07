@@ -148,6 +148,19 @@ button {
   gap: 6px;
 }
 
+.subject-group-label {
+  color: #8b95a5;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  margin: 10px 10px 0;
+  text-transform: uppercase;
+}
+
+.subject-group-label:first-child {
+  margin-top: 0;
+}
+
 .subject-nav button {
   align-items: center;
   background: transparent;
