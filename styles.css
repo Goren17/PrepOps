@@ -441,6 +441,31 @@ button {
   margin-bottom: 10px;
 }
 
+.playlist-editor-title p {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-top: 3px;
+}
+
+.playlist-editor-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.playlist-editor-actions input[type="text"] {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  font: inherit;
+  min-height: 36px;
+  min-width: 180px;
+  padding: 0 10px;
+}
+
 .playlist-category-choices {
   display: grid;
   gap: 8px;
@@ -1384,7 +1409,22 @@ button {
   .random-toggle,
   .playlist-box,
   .focus-box,
-  #mockSetupBtn {
+  #mockSetupBtn,
+  #playlistCreateBtn,
+  #playlistEditToggle,
+  #playlistExportBtn,
+  #playlistImportBtn {
+    width: 100%;
+  }
+
+  .playlist-editor-title,
+  .playlist-editor-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .playlist-editor-actions input[type="text"],
+  .playlist-editor-actions button {
     width: 100%;
   }
 

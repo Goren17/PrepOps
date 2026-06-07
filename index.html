@@ -97,6 +97,10 @@
               </select>
             </label>
             <button id="playlistEditToggle" class="ghost-btn playlist-edit-btn" type="button" hidden>Edit playlist</button>
+            <button id="playlistCreateBtn" class="ghost-btn playlist-edit-btn" type="button">New playlist</button>
+            <button id="playlistExportBtn" class="ghost-btn playlist-edit-btn" type="button">Export</button>
+            <button id="playlistImportBtn" class="ghost-btn playlist-edit-btn" type="button">Import</button>
+            <input id="playlistImportInput" type="file" accept="application/json" hidden />
 
             <label class="focus-box">
               <span>Focus</span>
@@ -113,8 +117,16 @@
 
           <div id="playlistEditor" class="playlist-editor" hidden>
             <div class="playlist-editor-title">
-              <span class="eyebrow">Playlist Categories</span>
-              <button id="playlistResetBtn" class="ghost-btn" type="button" hidden>Reset default</button>
+              <div>
+                <span class="eyebrow">Playlist Categories</span>
+                <p id="playlistStorageNote">Saved in this browser. Export before clearing site data.</p>
+              </div>
+              <div class="playlist-editor-actions">
+                <input id="playlistNameInput" type="text" placeholder="Playlist name" hidden />
+                <button id="playlistSaveNameBtn" class="ghost-btn" type="button" hidden>Rename</button>
+                <button id="playlistResetBtn" class="ghost-btn" type="button" hidden>Reset default</button>
+                <button id="playlistDeleteBtn" class="ghost-btn danger-btn" type="button" hidden>Delete</button>
+              </div>
             </div>
             <div id="playlistCategoryChoices" class="playlist-category-choices"></div>
           </div>

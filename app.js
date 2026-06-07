@@ -3,6 +3,7 @@ const QUEUE_WIDTH_KEY = "preprops-queue-width-v1";
 const MOCK_HISTORY_KEY = "preprops-mock-history-v1";
 const ACTIVE_MOCK_KEY = "preprops-active-mock-v1";
 const PLAYLIST_OVERRIDES_KEY = "preprops-playlist-overrides-v1";
+const CUSTOM_PLAYLISTS_KEY = "preprops-custom-playlists-v1";
 const MOCK_OUTCOMES = {
   missed: { label: "Missed", points: 0 },
   partial: { label: "Partial", points: 50 },
@@ -268,6 +269,7 @@ const state = {
   answerVisible: false,
   progress: loadProgress(),
   playlistOverrides: loadPlaylistOverrides(),
+  customPlaylists: loadCustomPlaylists(),
   mockPanelOpen: false,
   mockSession: loadActiveMock(),
   mockHistory: loadMockHistory(),
@@ -289,7 +291,14 @@ const els = {
   playlistSelect: document.querySelector("#playlistSelect"),
   playlistEditor: document.querySelector("#playlistEditor"),
   playlistEditToggle: document.querySelector("#playlistEditToggle"),
+  playlistCreateBtn: document.querySelector("#playlistCreateBtn"),
   playlistResetBtn: document.querySelector("#playlistResetBtn"),
+  playlistNameInput: document.querySelector("#playlistNameInput"),
+  playlistSaveNameBtn: document.querySelector("#playlistSaveNameBtn"),
+  playlistDeleteBtn: document.querySelector("#playlistDeleteBtn"),
+  playlistExportBtn: document.querySelector("#playlistExportBtn"),
+  playlistImportBtn: document.querySelector("#playlistImportBtn"),
+  playlistImportInput: document.querySelector("#playlistImportInput"),
   playlistCategoryChoices: document.querySelector("#playlistCategoryChoices"),
   focusSelect: document.querySelector("#focusSelect"),
   mockSetupBtn: document.querySelector("#mockSetupBtn"),
@@ -362,6 +371,64 @@ function loadPlaylistOverrides() {
 
 function savePlaylistOverrides() {
   localStorage.setItem(PLAYLIST_OVERRIDES_KEY, JSON.stringify(state.playlistOverrides));
+}
+
+function normalizeSubjects(subjects) {
+  const validSubjects = new Set(QUESTIONS.map(({ subject }) => subject));
+  return [...new Set((subjects || []).filter((subject) => validSubjects.has(subject)))];
+}
+
+function loadCustomPlaylists() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(CUSTOM_PLAYLISTS_KEY)) || [];
+    if (!Array.isArray(saved)) return [];
+    return saved
+      .map((playlist) => ({
+        id: String(playlist.id || "").replace(/[^a-z0-9-]/gi, ""),
+        label: String(playlist.label || "").trim(),
+        subjects: normalizeSubjects(playlist.subjects)
+      }))
+      .filter((playlist) => playlist.id && playlist.label);
+  } catch {
+    return [];
+  }
+}
+
+function saveCustomPlaylists() {
+  localStorage.setItem(CUSTOM_PLAYLISTS_KEY, JSON.stringify(state.customPlaylists));
+}
+
+function customPlaylistKey(id) {
+  return `custom:${id}`;
+}
+
+function customPlaylistIdFromKey(key) {
+  return key.startsWith("custom:") ? key.slice("custom:".length) : "";
+}
+
+function playlistByKey(key) {
+  if (PLAYLISTS[key]) return PLAYLISTS[key];
+  const id = customPlaylistIdFromKey(key);
+  const custom = state.customPlaylists.find((playlist) => playlist.id === id);
+  if (!custom) return null;
+  return {
+    label: custom.label,
+    subjects: new Set(custom.subjects),
+    custom: true,
+    id: custom.id
+  };
+}
+
+function makePlaylistId(label) {
+  const base = label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "playlist";
+  const used = new Set(state.customPlaylists.map((playlist) => playlist.id));
+  let candidate = base;
+  let suffix = 2;
+  while (used.has(candidate)) {
+    candidate = `${base}-${suffix}`;
+    suffix += 1;
+  }
+  return candidate;
 }
 
 function loadMockHistory() {
@@ -538,22 +605,23 @@ function followUpsFor(item) {
 }
 
 function matchesPlaylist(item) {
-  const playlist = PLAYLISTS[state.playlist];
+  const playlist = playlistByKey(state.playlist);
   if (!playlist || state.playlist === "all") return true;
   const subjectOverride = state.playlistOverrides[state.playlist];
   if (subjectOverride) return subjectOverride.includes(item.subject);
   const text = `${item.subject} ${item.q} ${item.a}`.toLowerCase();
   if (playlist.subjects.has(item.subject)) return true;
+  if (playlist.custom) return false;
   if (playlist.scopeSubjects && !playlist.scopeSubjects.has(item.subject)) return false;
   return playlist.terms.some((term) => text.includes(term));
 }
 
 function editablePlaylist() {
-  return state.playlist !== "all" ? PLAYLISTS[state.playlist] : null;
+  return state.playlist !== "all" ? playlistByKey(state.playlist) : null;
 }
 
 function playlistDefaultSubjects(playlistKey) {
-  const playlist = PLAYLISTS[playlistKey];
+  const playlist = playlistByKey(playlistKey);
   return playlist?.subjects ? [...playlist.subjects] : [];
 }
 
@@ -971,6 +1039,24 @@ function renderMockControls() {
   renderMockHistory();
 }
 
+function renderPlaylistSelect() {
+  const current = playlistByKey(state.playlist) ? state.playlist : "all";
+  if (current !== state.playlist) state.playlist = current;
+  const builtInOptions = Object.entries(PLAYLISTS).map(
+    ([key, playlist]) => `<option value="${key}">${escapeHtml(playlist.label)}</option>`
+  );
+  const customOptions = state.customPlaylists.length
+    ? [
+        `<option disabled>──────────</option>`,
+        ...state.customPlaylists.map(
+          (playlist) => `<option value="${customPlaylistKey(playlist.id)}">${escapeHtml(playlist.label)}</option>`
+        )
+      ]
+    : [];
+  els.playlistSelect.innerHTML = [...builtInOptions, ...customOptions].join("");
+  els.playlistSelect.value = state.playlist;
+}
+
 function renderPlaylistEditor() {
   const playlist = editablePlaylist();
   const isOpen = Boolean(playlist && els.playlistEditor.dataset.open === "true");
@@ -980,8 +1066,13 @@ function renderPlaylistEditor() {
 
   const selected = new Set(playlistSelectedSubjects(state.playlist));
   const hasOverride = Boolean(state.playlistOverrides[state.playlist]);
+  const isCustom = Boolean(playlist.custom);
   els.playlistEditToggle.textContent = isOpen ? "Done" : "Edit playlist";
-  els.playlistResetBtn.hidden = !hasOverride;
+  els.playlistNameInput.hidden = !isCustom;
+  els.playlistSaveNameBtn.hidden = !isCustom;
+  els.playlistDeleteBtn.hidden = !isCustom;
+  els.playlistResetBtn.hidden = isCustom || !hasOverride;
+  if (isCustom) els.playlistNameInput.value = playlist.label;
   els.playlistCategoryChoices.innerHTML = QUESTIONS.map((group) => {
     const checked = selected.has(group.subject) ? "checked" : "";
     return `
@@ -998,7 +1089,7 @@ function renderQuestion() {
   const item = selectedQuestion();
   state.selectedId = item?.id;
   document.body.classList.toggle("mock-mode", Boolean(state.mockSession));
-  const playlistTitle = PLAYLISTS[state.playlist]?.label || PLAYLISTS.all.label;
+  const playlistTitle = playlistByKey(state.playlist)?.label || PLAYLISTS.all.label;
   const focusTitle = state.focus === "all" ? "" : ` - ${state.focus}`;
   const modeLabels = {
     browse: "Browse",
@@ -1124,6 +1215,7 @@ function renderList() {
 }
 
 function render() {
+  renderPlaylistSelect();
   renderSubjects();
   renderStats();
   renderMockControls();
@@ -1187,6 +1279,32 @@ els.playlistEditToggle.addEventListener("click", () => {
   render();
 });
 
+els.playlistCreateBtn.addEventListener("click", () => {
+  const label = prompt("Playlist name");
+  if (!label || !label.trim()) return;
+  const id = makePlaylistId(label.trim());
+  state.customPlaylists.push({
+    id,
+    label: label.trim(),
+    subjects: []
+  });
+  saveCustomPlaylists();
+  state.playlist = customPlaylistKey(id);
+  els.playlistEditor.dataset.open = "true";
+  selectFirstVisible();
+  render();
+});
+
+els.playlistSaveNameBtn.addEventListener("click", () => {
+  const id = customPlaylistIdFromKey(state.playlist);
+  const playlist = state.customPlaylists.find((item) => item.id === id);
+  const label = els.playlistNameInput.value.trim();
+  if (!playlist || !label) return;
+  playlist.label = label;
+  saveCustomPlaylists();
+  render();
+});
+
 els.playlistResetBtn.addEventListener("click", () => {
   delete state.playlistOverrides[state.playlist];
   savePlaylistOverrides();
@@ -1194,13 +1312,94 @@ els.playlistResetBtn.addEventListener("click", () => {
   render();
 });
 
+els.playlistDeleteBtn.addEventListener("click", () => {
+  const id = customPlaylistIdFromKey(state.playlist);
+  const playlist = state.customPlaylists.find((item) => item.id === id);
+  if (!playlist || !confirm(`Delete playlist "${playlist.label}"?`)) return;
+  state.customPlaylists = state.customPlaylists.filter((item) => item.id !== id);
+  delete state.playlistOverrides[state.playlist];
+  saveCustomPlaylists();
+  savePlaylistOverrides();
+  state.playlist = "all";
+  els.playlistEditor.dataset.open = "false";
+  selectFirstVisible();
+  render();
+});
+
+els.playlistExportBtn.addEventListener("click", () => {
+  const payload = {
+    type: "preprops-custom-playlists",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    customPlaylists: state.customPlaylists
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "preprops-playlists.json";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+});
+
+els.playlistImportBtn.addEventListener("click", () => {
+  els.playlistImportInput.click();
+});
+
+els.playlistImportInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.addEventListener("load", () => {
+    try {
+      const parsed = JSON.parse(String(reader.result || "{}"));
+      const imported = Array.isArray(parsed) ? parsed : parsed.customPlaylists;
+      if (!Array.isArray(imported)) throw new Error("No customPlaylists array found.");
+      let added = 0;
+      imported.forEach((playlist) => {
+        const label = String(playlist.label || "").trim();
+        const subjects = normalizeSubjects(playlist.subjects);
+        if (!label) return;
+        state.customPlaylists.push({
+          id: makePlaylistId(label),
+          label,
+          subjects
+        });
+        added += 1;
+      });
+      saveCustomPlaylists();
+      if (added) {
+        state.playlist = customPlaylistKey(state.customPlaylists[state.customPlaylists.length - 1].id);
+        els.playlistEditor.dataset.open = "true";
+      }
+      selectFirstVisible();
+      render();
+      if (!added) alert("No valid playlists found in that file.");
+    } catch (error) {
+      alert(`Could not import playlists: ${error.message}`);
+    } finally {
+      event.target.value = "";
+    }
+  });
+  reader.readAsText(file);
+});
+
 els.playlistCategoryChoices.addEventListener("change", (event) => {
   if (!event.target.matches("input[type='checkbox']")) return;
   const selected = Array.from(els.playlistCategoryChoices.querySelectorAll("input:checked")).map(
     (input) => input.value
   );
-  state.playlistOverrides[state.playlist] = selected;
-  savePlaylistOverrides();
+  const id = customPlaylistIdFromKey(state.playlist);
+  const playlist = state.customPlaylists.find((item) => item.id === id);
+  if (playlist) {
+    playlist.subjects = normalizeSubjects(selected);
+    saveCustomPlaylists();
+  } else {
+    state.playlistOverrides[state.playlist] = selected;
+    savePlaylistOverrides();
+  }
   selectFirstVisible();
   render();
 });
