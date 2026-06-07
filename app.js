@@ -822,6 +822,9 @@ function setProgress(id, patch) {
   }
   state.progress[id] = next;
   saveProgress();
+  if (state.selectedId === id && !visibleQuestions().some((item) => item.id === id)) {
+    selectFirstVisible();
+  }
   render();
 }
 
