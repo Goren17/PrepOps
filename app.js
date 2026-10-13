@@ -44,6 +44,7 @@ const SUBJECT_GROUPS = {
       "Teamwork / Workflows",
       "Enterprise Infra",
       "AI / HPC Infra",
+      "MLOps Fundamentals",
       "CommBox DevOps",
       "Practical Tasks",
       "Incident Response"

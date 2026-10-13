@@ -55,6 +55,10 @@ test("static app renders and core filters work", async ({ page }) => {
     renderedQueueItems: appliedQueueCount
   });
   expect(appliedQueueTitle).toMatch(/Practice Queue \([1-9][0-9]*\)/);
+  await page.locator("#playlistSelect").selectOption("all");
+  await page.locator("[data-subject='MLOps Fundamentals']").click();
+  await expect(page.locator("#subjectTitle")).toContainText("MLOps Fundamentals");
+  await expect(page.locator("#questionList .question-item")).toHaveCount(25);
 
   await page.locator("[data-mode='scenario']").click();
   await expect(page.locator("#subjectTitle")).toContainText("Scenarios");
