@@ -42,6 +42,9 @@ test("static app renders and core filters work", async ({ page }) => {
     renderedQueueItems: initialQueueCount
   });
 
+  await page.locator("#playlistSelect").selectOption("oracleOps");
+  await expect(page.locator("#subjectTitle")).toContainText("Oracle Technical Operations");
+  expect(await page.locator("#questionList .question-item").count()).toBeGreaterThan(0);
   await page.locator("#playlistSelect").selectOption("applied");
   await expect(page.locator("#subjectTitle")).toContainText("On-Prem DevOps");
   const appliedQueueTitle = await page.locator("#queueTitle").innerText();
@@ -74,7 +77,7 @@ test("static app renders and core filters work", async ({ page }) => {
 
   await page.locator("#mockSetupBtn").click();
   await expect(page.locator("#mockPanel")).toBeVisible();
-  await page.locator("#mockPresetSelect").selectOption("applied");
+  await page.locator("#mockPresetSelect").selectOption("oracleOps");
   const checkedMockSubjects = await page.locator("#mockSubjectChoices input:checked").count();
   await logCheckpoint("Mock preset selected", {
     preset: await page.locator("#mockPresetSelect").inputValue(),

@@ -29,6 +29,7 @@ const SUBJECT_GROUPS = {
       "CI/CD",
       "Java Build & Runtime",
       "Cloud / AWS",
+      "Storage & Virtualization",
       "Infrastructure as Code",
       "Security",
       "Python",
@@ -43,6 +44,7 @@ const SUBJECT_GROUPS = {
       "Teamwork / Workflows",
       "Enterprise Infra",
       "AI / HPC Infra",
+      "CommBox DevOps",
       "Practical Tasks",
       "Incident Response"
     ])
@@ -174,11 +176,76 @@ const PLAYLISTS = {
       "team",
       "communication"
     ]
+  },
+  oracleOps: {
+    label: "Oracle Technical Operations",
+    subjects: new Set(["Storage & Virtualization", "Incident Response"]),
+    scopeSubjects: new Set(["Linux", "Networking", "Cloud / AWS", "Infrastructure as Code", "Enterprise Infra", "Security"]),
+    terms: ["production", "systemd", "journalctl", "cpu", "memory", "disk", "network", "dns", "load balancer", "latency", "storage", "volume", "backup", "restore", "vm", "terraform", "oci", "availability", "capacity", "patch", "incident", "rollback", "root cause", "תחקור"]
+  },
+  commbox: {
+    label: "CommBox DevOps Engineer",
+    subjects: new Set(["CommBox DevOps"]),
+    scopeSubjects: new Set([
+      "General DevOps",
+      "Linux",
+      "Networking",
+      "Git",
+      "Docker",
+      "Kubernetes",
+      "CI/CD",
+      "Cloud / AWS",
+      "Infrastructure as Code",
+      "Security",
+      "Python",
+      "Helm",
+      "Enterprise Infra",
+      "Incident Response"
+    ]),
+    terms: [
+      "github actions",
+      "gitops",
+      "argocd",
+      "eks",
+      "helm",
+      "terraform",
+      "cloudformation",
+      "aws",
+      "multi-account",
+      "cloudfront",
+      "cloudflare",
+      "waf",
+      "new relic",
+      "newrelic",
+      "mysql",
+      "redis",
+      "opensearch",
+      "elasticsearch",
+      "windows",
+      "iis",
+      "active directory",
+      "directory services",
+      "sast",
+      "shift left",
+      "aiops",
+      "incident",
+      "root-cause",
+      "root cause",
+      "high-traffic",
+      "scale",
+      "security gate"
+    ]
   }
 };
 const MOCK_PRESETS = {
   custom: {
     label: "Custom"
+  },
+  oracleOps: {
+    label: "Oracle Technical Operations",
+    count: 20,
+    difficulty: "all",
+    subjects: ["Linux", "Networking", "Storage & Virtualization", "Incident Response", "Enterprise Infra", "Cloud / AWS", "Infrastructure as Code", "Security"]
   },
   applied: {
     label: "On-Prem DevOps",

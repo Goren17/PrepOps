@@ -4,7 +4,8 @@ const vm = require("vm");
 
 const root = path.resolve(__dirname, "..");
 const questionsPath = path.join(root, "questions.js");
-const source = fs.readFileSync(questionsPath, "utf8");
+const additionsPath = path.join(root, "oracle-questions.js");
+const source = [questionsPath, additionsPath].map((file) => fs.readFileSync(file, "utf8")).join("\n");
 const context = {};
 
 vm.createContext(context);
@@ -27,7 +28,7 @@ if (!Array.isArray(questions)) {
   fail("QUESTIONS must be an array.");
 } else {
   console.log("::group::Question bank summary");
-  console.log(`Source: ${path.relative(root, questionsPath)}`);
+  console.log(`Sources: questions.js, oracle-questions.js`);
   console.log(`Groups found: ${questions.length}`);
   console.log("::endgroup::");
 

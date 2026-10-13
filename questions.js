@@ -997,6 +997,42 @@ const QUESTIONS = [
         ]
       },
       {
+        "q": "קיבלת ארבעה workloads: API stateless, מסד נתונים, agent לאיסוף לוגים מכל Node, ומשימת migration חד-פעמית. איזה אובייקט Kubernetes תבחר לכל אחד ולמה?",
+        "a": "ל-API stateless אבחר Deployment, שמנהל replicas ועדכונים הדרגתיים. למסד נתונים שדורש זהות ואחסון יציבים אבחר StatefulSet. ל-agent שחייב לרוץ על כל Node אבחר DaemonSet, ול-migration שמסתיים לאחר הצלחה אבחר Job. תשובה טובה לא מסתפקת בשם האובייקט: היא מקשרת בין דרישות ה-workload לבין guarantees כמו זהות, scheduling, lifecycle ו-update strategy.",
+        "signals": [
+          "Maps workload requirements to the correct controller",
+          "Explains lifecycle and identity guarantees",
+          "Does not default every workload to a Deployment"
+        ]
+      },
+      {
+        "q": "מה הקשר בין Deployment, ReplicaSet ו-Pod, ומדוע בדרך כלל לא יוצרים ReplicaSet ישירות?",
+        "a": "Deployment מנהל ReplicaSets, וכל ReplicaSet שומר על מספר ה-Pods הרצוי עבור Pod template מסוים. בזמן rollout ה-Deployment יוצר ReplicaSet חדש ומקטין בהדרגה את הישן; ה-ReplicaSets גם מאפשרים היסטוריית rollout ו-rollback. בדרך כלל לא יוצרים ReplicaSet ישירות כי אז חסרות יכולות הניהול של Deployment, כמו declarative updates, rollout strategy ו-rollback.",
+        "signals": [
+          "Explains the ownership chain",
+          "Connects ReplicaSets to rollout history",
+          "Knows when direct ReplicaSet management is unnecessary"
+        ]
+      },
+      {
+        "q": "מה ההבדל בין Service מסוג ClusterIP, NodePort, LoadBalancer ו-ExternalName, ובאיזה תרחיש תבחר בכל אחד?",
+        "a": "ClusterIP חושף Service רק בתוך הקלאסטר והוא ברירת המחדל לשירות פנימי. NodePort פותח פורט קבוע בכל Node, ולרוב משמש כתשתית או לצורכי בדיקה ולא כפתרון production מלא. LoadBalancer מבקש מספק התשתית load balancer חיצוני ובדרך כלל משמש לחשיפת שירות החוצה. ExternalName יוצר הפניית DNS לשם חיצוני ואינו בוחר Pods. הבחירה תלויה במקור התעבורה, בספק התשתית ובצורך ב-L4 לעומת routing מתקדם דרך Ingress או Gateway.",
+        "signals": [
+          "Distinguishes internal and external exposure",
+          "Understands that ExternalName does not select Pods",
+          "Explains the operational tradeoffs of NodePort and LoadBalancer"
+        ]
+      },
+      {
+        "q": "מהו ServiceAccount ב-Kubernetes, במה הוא שונה מ-Service, וכיצד היית משתמש בו לפי עקרון least privilege?",
+        "a": "ServiceAccount הוא זהות עבור תהליכים שרצים ב-Pods, בעוד Service הוא אובייקט רשת שמספק גישה יציבה ל-Pods. מקשרים ServiceAccount ייעודי ל-workload דרך pod spec ומעניקים לו רק את ההרשאות הדרושות באמצעות Role ו-RoleBinding, או ClusterRole רק כשנדרשת הרשאה ברמת הקלאסטר. יש להימנע משימוש אוטומטי ב-default ServiceAccount ומהרשאות רחבות, ולבטל automount של API credentials כאשר ה-Pod כלל לא צריך לדבר עם Kubernetes API.",
+        "signals": [
+          "Separates workload identity from service networking",
+          "Applies RBAC with least privilege",
+          "Mentions avoiding unnecessary token mounting"
+        ]
+      },
+      {
         "q": "איך היית מתכנן multi-tenant namespaces ב-Kubernetes עבור כמה צוותי פיתוח?",
         "a": "הייתי משתמש ב-namespaces כיחידות ownership, עם RBAC, ResourceQuota, LimitRange, NetworkPolicy, admission policies, גבולות ברורים ל-secrets ו-labels סטנדרטיים. לבידוד חזק יותר הייתי מוסיף node pools, runtime policies, ובמקרים עם סיכון גבוה גם clusters נפרדים.",
         "signals": [
@@ -2672,6 +2708,162 @@ const QUESTIONS = [
           "Moves toward symptom/SLO alerts",
           "Reduces noise with better thresholds or burn rates"
         ]
+      }
+    ]
+  },
+  {
+    "subject": "CommBox DevOps",
+    "icon": "CB",
+    "items": [
+      {
+        "q": "ארגון מנהל מספר AWS accounts עבור production, staging ו-development. איך היית מתכנן access, role assumption, account boundaries ו-centralized auditing?",
+        "a": "אפריד accounts לפי environment ו-blast radius תחת AWS Organizations, ואשתמש ב-SSO/Identity Center וב-roles זמניים במקום users ו-keys קבועים. אגדיר SCPs כ-guardrails, least privilege בכל account וחשבונות מרכזיים ל-logs ול-security. CloudTrail, Config ו-security findings יישלחו ליעד מרכזי ומוגן משינוי.",
+        "signals": ["Separates accounts and blast radius", "Uses temporary roles and SCP guardrails", "Centralizes immutable audit logs"]
+      },
+      {
+        "q": "איך היית מאפשר ל-GitHub Actions לפרוס ל-AWS בלי לשמור long-lived AWS access keys כ-secrets?",
+        "a": "אשתמש ב-GitHub OIDC מול IAM role עם trust policy שמגבילה organization, repository, branch או environment. ה-workflow יקבל credentials זמניים דרך AssumeRole, עם permissions מינימליים ו-environment protection לפרודקשן. כך אין secret קבוע שצריך לסובב או שעלול לדלוף.",
+        "signals": ["Uses GitHub OIDC", "Restricts IAM trust conditions", "Applies least privilege and environment protection"]
+      },
+      {
+        "q": "תכנן GitHub Actions workflow שכולל build, tests, linting, SAST, image scanning ו-deployment דרך GitOps. מה צריך לחסום merge או release?",
+        "a": "ב-PR אריץ lint, tests, SAST ו-dependency scanning; לאחר merge אבנה image פעם אחת, אסרוק ואחתום אותו ואפרסם לפי digest. הפריסה תיעשה בעדכון GitOps repo ו-ArgoCD יסנכרן. כשל בבדיקות קריטיות, vulnerability מעל policy, artifact לא חתום או approval חסר צריכים לחסום את המעבר.",
+        "signals": ["Builds once and promotes an immutable artifact", "Defines explicit security gates", "Deploys by GitOps rather than direct cluster mutation"]
+      },
+      {
+        "q": "איך היית בונה reusable GitHub Actions workflows עבור עשרות repositories, תוך מתן אפשרות לכל צוות להתאים חלק מה-pipeline?",
+        "a": "אשים reusable workflows versioned ב-repository מרכזי עם inputs, outputs ו-secrets contract ברורים. אקבע secure defaults ושלבים חובה, אך אאפשר extension points לפרמטרים ול-jobs ייעודיים. אצמיד consumers לגרסה או tag מבוקר, אבדוק compatibility ואנהל rollout הדרגתי של שינויים.",
+        "signals": ["Creates versioned workflow contracts", "Balances guardrails with extension points", "Plans compatibility and rollout"]
+      },
+      {
+        "q": "ArgoCD מציג application כ-OutOfSync ו-Degraded, אבל ה-commit האחרון נראה תקין. איך היית חוקר את התקלה?",
+        "a": "אבדוק את diff בין desired ל-live state, את application conditions וה-resource health, ואז events ו-logs של ה-controller ושל ה-workload. אחפש render שונה של Helm, admission rejection, immutable field, hook שנכשל או dependency שלא מוכנה. לפני sync כפוי אבין אם יש drift ידני או שינוי שיגרום למחיקה או recreation.",
+        "signals": ["Compares desired and live state", "Checks controller, events, hooks and admission", "Avoids blind force-sync"]
+      },
+      {
+        "q": "מישהו ביצע שינוי ידני ב-production cluster ו-ArgoCD עומד להחזיר אותו לאחור. איך היית מטפל באירוע ומונע שינויים כאלה בעתיד?",
+        "a": "קודם אברר אם השינוי הוא mitigation חיוני ואשמר אותו מיד ב-Git אם צריך. אשווה diff, אעריך impact ורק אז אתן ל-ArgoCD לשחזר או אעדכן desired state. למניעה אצמצם write RBAC, אדרוש break-glass מתועד, אפעיל audit ו-alerts על drift ואקבע נוהל emergency changes.",
+        "signals": ["Preserves a valid emergency mitigation", "Treats Git as the durable source of truth", "Adds RBAC, audit and break-glass controls"]
+      },
+      {
+        "q": "Deployment חדש ב-EKS גורם לעלייה הדרגתית ב-latency וב-error rate, בלי שה-Pods קורסים. איך היית מבצע root-cause analysis?",
+        "a": "אאמת correlation לגרסה ואשווה old/new pods לפי RED metrics ו-traces. אבדוק saturation, throttling, GC, connection pools, DNS, network, downstreams ו-database latency, וגם readiness ו-load distribution. אם impact עולה וה-rollback בטוח אבצע mitigation לפני השלמת החקירה.",
+        "signals": ["Compares versions using metrics and traces", "Checks dependencies and hidden saturation", "Prioritizes safe mitigation"]
+      },
+      {
+        "q": "איך היית מתכנן shared Helm chart שמפשט deployment למפתחים, אבל עדיין אוכף resource limits, probes, security context וארגון logs אחיד?",
+        "a": "אבנה chart עם defaults בטוחים, schema validation וממשק values קטן ויציב. רכיבים כמו probes, non-root security context, resources, labels ו-log metadata יהיו מובנים, עם overrides מבוקרים בלבד. אוסיף unit/render tests, policy checks, versioning ו-migration notes כדי ששינוי משותף לא ישבור שירותים רבים.",
+        "signals": ["Provides safe defaults and schema validation", "Keeps the developer interface small", "Tests and versions shared chart changes"]
+      },
+      {
+        "q": "CloudFront מחזיר תוכן ישן לאחר deployment, בעוד שפנייה ישירה ל-origin מחזירה את הגרסה החדשה. מה תבדוק?",
+        "a": "אבדוק cache key, TTL, Cache-Control, invalidation status והאם ה-request פוגע distribution ו-behavior הנכונים. אוודא שה-origin path והגרסה נכונים ושאין cache נוסף בדפדפן או באפליקציה. לטווח ארוך אעדיף asset names עם content hash על invalidations תכופים.",
+        "signals": ["Checks cache key, TTL and headers", "Verifies distribution behavior and origin", "Uses versioned immutable assets"]
+      },
+      {
+        "q": "Cloudflare מופעל לפני AWS Load Balancer ולקוחות מסוימים מקבלים 403 או 502. איך תבודד האם התקלה נמצאת ב-Cloudflare, ב-AWS או באפליקציה?",
+        "a": "אפלח לפי Ray ID, region, path ו-time ואבדוק Cloudflare events ו-origin status. אשווה בקשה דרך Cloudflare לבקשה מבוקרת ישירות ל-origin תוך שמירת Host/TLS, ואבדוק WAF, rate limit, DNS, certificates, ALB target health ו-application logs. לא אעקוף את ההגנה באופן ציבורי בזמן הבדיקה.",
+        "signals": ["Correlates edge and origin request IDs", "Tests each layer safely", "Checks WAF, TLS, load balancer and application"]
+      },
+      {
+        "q": "איך היית מגן על public API באמצעות Cloudflare WAF מבלי לחסום traffic לגיטימי? כיצד היית משיק ומודד כלל WAF חדש?",
+        "a": "אתחיל ב-managed rules ובכלל מותאם צר שמבוסס על endpoint, method ואותות אמינים. אשיק ב-log או simulate mode, אנתח false positives לפי לקוחות ו-paths ורק אז אעבור ל-challenge או block בהדרגה. אגדיר exception מצומצם, owner, expiry, dashboard ודרך rollback מיידית.",
+        "signals": ["Starts in observe mode", "Measures false positives and user impact", "Uses scoped exceptions and rollback"]
+      },
+      {
+        "q": "MySQL production נהיה איטי בזמן עומס. אילו metrics, queries ורכיבי infrastructure היית בודק לפני הגדלת ה-instance?",
+        "a": "אבדוק latency ו-throughput, slow query log, locks, connection saturation, buffer pool, CPU, memory ו-storage IOPS/queue. אשתמש ב-EXPLAIN לשאילתות מובילות ואבדוק indexes ושינויי workload. Scaling עשוי לקנות זמן, אבל לא יפתור query גרוע, lock contention או connection storm.",
+        "signals": ["Checks queries, locks and connection pools", "Correlates database and storage metrics", "Does not default to vertical scaling"]
+      },
+      {
+        "q": "Redis מתחיל לבצע evictions וצריכת הזיכרון מתקרבת למקסימום. מה המשמעות, ומהן אפשרויות הטיפול?",
+        "a": "אבדוק maxmemory-policy, hit rate, keyspace, TTLs, גדילת keys, fragmentation ו-latency. Eviction יכול להיות תקין ב-cache אך מסוכן אם Redis מחזיק state. אטפל ב-TTL וב-data model, אעצור hot-key או unbounded growth, ואשקול scaling או sharding רק לאחר הבנת דפוס השימוש.",
+        "signals": ["Distinguishes cache from durable state", "Checks policy, TTLs and key growth", "Addresses root cause before scaling"]
+      },
+      {
+        "q": "OpenSearch cluster משנה status ל-yellow או red. מה ההבדל בין המצבים ואיך היית חוקר כל אחד מהם?",
+        "a": "Yellow אומר שכל primary shards מוקצים אך חלק מה-replicas לא; red אומר שלפחות primary אחד לא מוקצה ולכן נתונים אינם זמינים. אבדוק cluster allocation explain, node health, disk watermarks, shard count, failed nodes ו-allocation rules. לא אבצע reroute או מחיקה לפני בדיקת snapshot והשלכות על data loss.",
+        "signals": ["Explains primary versus replica impact", "Uses allocation diagnostics", "Protects data before destructive recovery"]
+      },
+      {
+        "q": "ספר על משימה ידנית חוזרת שהיית הופך לאוטומציה. איך היית מודד שהאוטומציה באמת הפחיתה toil ולא הוסיפה סיכון?",
+        "a": "אבחר תהליך תדיר, ידני וצפוי עם failure modes מובנים. אמפה baseline של זמן, טעויות ו-interruptions, ואבנה אוטומציה idempotent עם dry-run, logs, rollback ו-owner. לאחר ההשקה אמדוד adoption, זמן שנחסך, failure rate ותחזוקה שנוספה.",
+        "signals": ["Defines a measurable baseline", "Builds safe idempotent automation", "Measures maintenance cost as well as savings"]
+      },
+      {
+        "q": "תן דוגמה מעשית לשימוש ב-AI coding assistant לכתיבת Bash/Python או Terraform. כיצד בדקת שהפלט בטוח ונכון לפני production?",
+        "a": "אשתמש ב-AI לטיוטה או tests, לא כמקור סמכות. אבדוק כל command ו-library, אריץ lint ו-tests בסביבה מבודדת, אבחן edge cases, permissions, idempotency ו-plan/dry-run, ואעביר review אנושי. לא אזין secrets או מידע לקוחות ואשמור provenance לשינוי.",
+        "signals": ["Treats AI output as untrusted input", "Uses tests, dry-run and review", "Protects secrets and customer data"]
+      },
+      {
+        "q": "אילו נתונים אסור לשלוח לכלי AI ציבורי במהלך troubleshooting של production incident?",
+        "a": "לא שולחים secrets, tokens, credentials, PII, customer content, private source code או logs עם מזהים רגישים בלי אישור וכלי מאושר. מצמצמים ומבצעים redaction לנתונים, בודקים retention ו-training policy ומשתמשים בפתרון ארגוני לפי classification. גם prompt ו-output צריכים audit מתאים.",
+        "signals": ["Identifies secrets, PII and customer data", "Uses approved tools and redaction", "Considers retention and audit"]
+      },
+      {
+        "q": "כלי AIOps טוען שמצא root cause וממליץ לבצע restart אוטומטי. אילו guardrails וראיות תדרוש לפני שתאפשר remediation אוטומטי?",
+        "a": "אדרוש evidence מקושר ל-telemetry, confidence ויכולת להסביר את התנאים. האוטומציה תהיה מוגבלת ב-scope וב-rate, idempotent, עם health validation, rollback, audit ו-kill switch. אתחיל בהמלצה בלבד, אעבור לאישור אנושי ורק לאחר נתוני הצלחה לפעולה אוטונומית בסיכון נמוך.",
+        "signals": ["Requires evidence rather than accepting a prediction", "Uses staged autonomy and strict blast-radius limits", "Includes validation, audit and kill switch"]
+      },
+      {
+        "q": "איך היית משתמש ב-AI כדי לסכם logs או incident timeline מבלי להסתמך על hallucinations?",
+        "a": "אספק אירועים מובנים עם timestamps ו-request IDs ואבקש שכל טענה תפנה לראיה המקורית. אפריד facts, hypotheses ו-missing data, ואוודא את הסיכום מול dashboards, logs ו-incident timeline. AI יכול לקצר triage, אך האדם נשאר אחראי להחלטות ול-root cause.",
+        "signals": ["Requires traceable evidence", "Separates facts from hypotheses", "Keeps humans accountable for conclusions"]
+      },
+      {
+        "q": "כיצד היית מעריך כלי AI חדש לפני הכנסתו ליום העבודה של צוות DevOps—מבחינת אבטחה, פרטיות, איכות, עלות ויכולת audit?",
+        "a": "אגדיר use cases ו-success metrics, ואבדוק data handling, isolation, retention, permissions, compliance ו-vendor risk. אריץ pilot עם dataset לא רגיש ואמדוד דיוק, false actions, latency ועלות. אדרוש audit logs, access control, exit plan ו-policy ברורה למידע מותר ואסור.",
+        "signals": ["Runs a scoped measurable pilot", "Evaluates data governance and vendor risk", "Requires auditability and an exit plan"]
+      },
+      {
+        "q": "איך היית בונה dashboard ו-alerting ב-New Relic עבור high-traffic SaaS platform? אילו SLIs ו-SLOs היית בוחר?",
+        "a": "אבחר SLIs שמייצגים חוויית לקוח: availability, latency, correctness ו-throughput לפי journey קריטי ו-tenant. אגדיר SLOs ו-error budgets, dashboards מה-edge עד dependencies ו-alerts על burn rate ולא רק CPU. אוסיף deployment markers ויכולת drill-down דרך trace, log ו-request ID.",
+        "signals": ["Uses customer-facing SLIs and SLOs", "Alerts on error-budget burn", "Correlates deployments, metrics, traces and logs"]
+      },
+      {
+        "q": "Alert מצביע על latency גבוה, אבל CPU ו-memory תקינים. איך traces, application metrics ו-dependency telemetry יכולים לעזור?",
+        "a": "אשתמש ב-distributed traces כדי לזהות span איטי ואפלח לפי endpoint, version ו-tenant. אבדוק queues, locks, thread/connection pools, DNS, network ו-latency של DB או API חיצוני. CPU תקין לא שולל המתנה ל-I/O, contention או retry storm.",
+        "signals": ["Uses traces to locate the slow hop", "Checks queues, pools and dependencies", "Recognizes non-CPU bottlenecks"]
+      },
+      {
+        "q": "שירות שרץ על Windows Server דרך IIS מחזיר 503, בעוד שהשרת עצמו נגיש. מה תבדוק?",
+        "a": "אבדוק application pool state, rapid-fail protection, process identity, bindings, certificates ו-IIS/Event Viewer logs. אוודא שה-backend מאזין, שה-port וה-health checks נכונים ושאין exhaustion או permission failure. אם יש load balancer, אשווה target health ובקשה מקומית לבקשה דרך הנתיב המלא.",
+        "signals": ["Checks IIS application pools and event logs", "Verifies bindings, identity and backend health", "Isolates local service from load-balancer path"]
+      },
+      {
+        "q": "שירות production תלוי ב-Active Directory ופתאום authentication נכשל. איך היית מפריד בין בעיית DNS, network, certificate, clock skew ו-directory service?",
+        "a": "אבדוק blast radius ושינוי אחרון, ואז DNS SRV resolution, reachability לפורטים הרלוונטיים, NTP/time skew ו-certificate chain ותוקף. אבדוק domain controller health ו-authentication logs ואנסה בקשה מבוקרת ממארח תקין וממארח כושל. כך משנים משתנה אחד בכל פעם ולא מאפסים שירותים עיוור.",
+        "signals": ["Checks DNS, ports, time and certificates systematically", "Compares healthy and failing clients", "Uses directory and client-side logs"]
+      },
+      {
+        "q": "מערכת hybrid כוללת workloads גם בענן וגם ב-on-prem. איך היית מתכנן connectivity, DNS, secrets, monitoring ו-failure isolation ביניהם?",
+        "a": "אשתמש בקישור פרטי ומיותר עם routing ו-firewall מצומצמים, split DNS מתוכנן ו-identity עקבית. secrets ינוהלו במערכת מרכזית עם short-lived access ו-telemetry ייאסף גם כשצד אחד מנותק. אגדיר timeouts, retries מוגבלים, queues או degraded mode כדי שכשל בקישור לא יהפוך לכשל כולל.",
+        "signals": ["Designs redundant private connectivity and DNS", "Centralizes identity, secrets and telemetry", "Contains link failures with resilience patterns"]
+      },
+      {
+        "q": "איך היית בוחר בין Terraform ל-CloudFormation עבור AWS infrastructure קיים? כיצד היית מנהל מצב שבו הארגון משתמש בשניהם?",
+        "a": "אבחר לפי ownership, skills, coverage, ecosystem והמצב הקיים; לא אוסיף כלי שני ללא ערך ברור. אם שניהם קיימים, לכל resource יהיה owner וכלי יחיד, עם state ו-stack boundaries ברורים ו-outputs מחוברים דרך interfaces יציבים. אמנע מניהול אותו resource בשני הכלים ואגדיר migration הדרגתי אם צריך.",
+        "signals": ["Makes a context-based tool choice", "Establishes single ownership per resource", "Defines boundaries and a migration path"]
+      },
+      {
+        "q": "תאר change מסוכן ב-production infrastructure. איך תכננת rollout, validation ו-rollback לפני הביצוע?",
+        "a": "אציג דוגמה עם impact ו-blast radius ברורים. אפרק את השינוי לשלבים הפיכים, אבדוק plan ו-backups, אתרגל ב-staging ואגדיר metrics, stop conditions, owner ו-maintenance communication. rollback ייבדק מראש, ובשינוי data-aware אעדיף expand/contract על חזרה לא בטוחה.",
+        "signals": ["Defines blast radius and stop conditions", "Uses staged validation and tested rollback", "Accounts for irreversible data changes"]
+      },
+      {
+        "q": "במהלך incident אתה רואה בו-זמנית עלייה ב-5xx, ב-database latency וב-Pod restarts. איך תקבע מהו ה-root cause ומהן רק תופעות לוואי?",
+        "a": "אבנה timeline מדויק ואחפש את האות הראשון, לא את הגרף הבולט ביותר. אשווה לפי services, versions ו-AZs ואשתמש ב-traces כדי לבדוק causal path; למשל DB איטי יכול לגרום timeouts ו-OOM, אך restart storm יכול גם להציף DB. אבצע mitigation בעל סיכון נמוך ואבדוק אם downstream signals מתאוששים.",
+        "signals": ["Builds a causal timeline", "Tests competing hypotheses with correlation and traces", "Validates cause through mitigation response"]
+      },
+      {
+        "q": "אילו שאלות היית שואל לפני שינוי autoscaling policy של high-traffic EKS workload?",
+        "a": "אשאל מה bottleneck ומה metric שמוביל capacity, מה זמן ה-startup והאם dependencies יכולים לשאת scale-out. אבדוק requests/limits, HPA stabilization, max capacity, node provisioning, quotas, cost ותגובה ל-spikes. אעשה load test ואגדיר success ו-rollback במקום לכוון threshold לפי תחושה.",
+        "signals": ["Selects a workload-relevant scaling signal", "Checks dependency and node capacity", "Validates with load tests and rollback criteria"]
+      },
+      {
+        "q": "איך היית מודד ומשפר developer experience סביב deployments בלי להתפשר על security ו-reliability?",
+        "a": "אמדוד lead time, deployment frequency, change failure rate, recovery time וזמן המתנה ל-pipeline, יחד עם feedback ממפתחים. אשפר דרך paved road, self-service, reusable workflows ו-errors ברורים, כאשר policy-as-code ו-secure defaults פועלים אוטומטית. חריגים יהיו מתועדים, מוגבלים בזמן וברי-audit.",
+        "signals": ["Uses delivery and developer-experience metrics", "Builds self-service paved roads", "Automates guardrails and audits exceptions"]
       }
     ]
   }
